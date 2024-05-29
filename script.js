@@ -1,4 +1,6 @@
 const choices = ["rock", "paper", "scissors"];
+let humanScore = 0;
+let computerScore = 0;
 
 // Logic to get computer choice
 function getComputerChoice() {
@@ -26,3 +28,29 @@ function getHumanChoice() {
 
   return humanChoice.toLowerCase();
 }
+
+// Logic to play a single round
+function playRound(humanChoice, comptuerChoice) {
+  if (
+    (humanChoice === "rock" && comptuerChoice === "scissors") ||
+    (humanChoice === "paper" && comptuerChoice === "rock") ||
+    (humanChoice === "scissors" && comptuerChoice === "paper")
+  ) {
+    console.log("You win! " + humanChoice + " beats " + comptuerChoice + ".");
+    humanScore++;
+  } else if (
+    (comptuerChoice === "rock" && humanChoice === "scissors") ||
+    (comptuerChoice === "paper" && humanChoice === "rock") ||
+    (comptuerChoice === "scissors" && humanChoice === "paper")
+  ) {
+    console.log("You lose! " + comptuerChoice + " beats " + humanChoice + ".");
+    computerScore++;
+  } else {
+    console.log("Draw!");
+  }
+}
+
+const humanSelection = getHumanChoice();
+const computerSelection = getComputerChoice();
+
+playRound(humanSelection, computerSelection);
