@@ -1,3 +1,5 @@
+const choices = ["rock", "paper", "scissors"];
+
 // Logic to get computer choice
 function getComputerChoice() {
   const comptuerChoice = Math.floor(
@@ -6,10 +8,21 @@ function getComputerChoice() {
 
   switch (comptuerChoice) {
     case 1:
-      return "rock";
+      return choices[0];
     case 2:
-      return "paper";
+      return choices[1];
     case 3:
-      return "scissors";
+      return choices[2];
   }
+}
+
+// Logic to get human choice
+function getHumanChoice() {
+  let humanChoice;
+
+  do {
+    humanChoice = prompt("rock, paper, or scissors?");
+  } while (!choices.includes(humanChoice.toLowerCase()));
+
+  return humanChoice.toLowerCase();
 }
