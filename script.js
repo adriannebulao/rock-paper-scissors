@@ -1,4 +1,5 @@
 const choices = ["rock", "paper", "scissors"];
+const MAX_ROUNDS = 5;
 let humanScore = 0;
 let computerScore = 0;
 
@@ -46,11 +47,29 @@ function playRound(humanChoice, comptuerChoice) {
     console.log("You lose! " + comptuerChoice + " beats " + humanChoice + ".");
     computerScore++;
   } else {
-    console.log("Draw!");
+    console.log("Draw! Both played " + humanChoice + ".");
   }
 }
 
-const humanSelection = getHumanChoice();
-const computerSelection = getComputerChoice();
+// Logic to play entire game
+function playGame() {
+  for (let i = 0; i < MAX_ROUNDS; i++) {
+    const humanSelection = getHumanChoice();
+    const computerSelection = getComputerChoice();
 
-playRound(humanSelection, computerSelection);
+    playRound(humanSelection, computerSelection);
+    console.log(
+      "SCORE: Human " + humanScore + " - " + computerScore + " Computer"
+    );
+  }
+
+  if (humanScore > computerScore) {
+    console.log("Human wins!");
+  } else if (computerScore > humanScore) {
+    console.log("Computer wins!");
+  } else {
+    console.log("It's a draw!");
+  }
+}
+
+playGame();
