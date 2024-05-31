@@ -5,11 +5,11 @@ let computerScore = 0;
 
 // Logic to get computer choice
 function getComputerChoice() {
-  const comptuerChoice = Math.floor(
+  const computerChoice = Math.floor(
     Math.random() * (Math.floor(3) - Math.ceil(1) + 1) + Math.ceil(1)
   );
 
-  switch (comptuerChoice) {
+  switch (computerChoice) {
     case 1:
       return choices[0];
     case 2:
@@ -19,57 +19,50 @@ function getComputerChoice() {
   }
 }
 
-// Logic to get human choice
-function getHumanChoice() {
-  let humanChoice;
+// Logic to get human choice and play the entire game
+const selectionButtons = document.querySelector(".selection-container");
+const result = document.getElementById("result");
+const score = document.getElementById("score");
 
-  do {
-    humanChoice = prompt("rock, paper, or scissors?");
-  } while (!choices.includes(humanChoice.toLowerCase()));
+selectionButtons.addEventListener("click", (e) => {
+  let humanChoice = e.target.id;
 
-  return humanChoice.toLowerCase();
-}
+  playRound(humanChoice, getComputerChoice());
+  score.innerText =
+    "SCORE: Human " + humanScore + " - " + computerScore + " Computer";
+
+  if (humanScore === 5 || computerScore === 5) {
+    const buttons = document.querySelectorAll(".selection");
+    buttons.forEach((button) => {
+      button.disabled = true;
+    });
+
+    const winnerText = document.createElement("p");
+    winnerText.innerText =
+      humanScore > computerScore ? "Human wins!" : "Computer wins!";
+    document.getElementById("result-container").appendChild(winnerText);
+  }
+});
 
 // Logic to play a single round
-function playRound(humanChoice, comptuerChoice) {
+function playRound(humanChoice, computerChoice) {
   if (
-    (humanChoice === "rock" && comptuerChoice === "scissors") ||
-    (humanChoice === "paper" && comptuerChoice === "rock") ||
-    (humanChoice === "scissors" && comptuerChoice === "paper")
+    (humanChoice === "rock" && computerChoice === "scissors") ||
+    (humanChoice === "paper" && computerChoice === "rock") ||
+    (humanChoice === "scissors" && computerChoice === "paper")
   ) {
-    console.log("You win! " + humanChoice + " beats " + comptuerChoice + ".");
+    result.innerText =
+      "You win! " + humanChoice + " beats " + computerChoice + ".";
     humanScore++;
   } else if (
-    (comptuerChoice === "rock" && humanChoice === "scissors") ||
-    (comptuerChoice === "paper" && humanChoice === "rock") ||
-    (comptuerChoice === "scissors" && humanChoice === "paper")
+    (computerChoice === "rock" && humanChoice === "scissors") ||
+    (computerChoice === "paper" && humanChoice === "rock") ||
+    (computerChoice === "scissors" && humanChoice === "paper")
   ) {
-    console.log("You lose! " + comptuerChoice + " beats " + humanChoice + ".");
+    result.innerText =
+      "You lose! " + computerChoice + " beats " + humanChoice + ".";
     computerScore++;
   } else {
-    console.log("Draw! Both played " + humanChoice + ".");
+    result.innerText = "Draw! Both played " + humanChoice + ".";
   }
 }
-
-// Logic to play entire game
-function playGame() {
-  for (let i = 0; i < MAX_ROUNDS; i++) {
-    const humanSelection = getHumanChoice();
-    const computerSelection = getComputerChoice();
-
-    playRound(humanSelection, computerSelection);
-    console.log(
-      "SCORE: Human " + humanScore + " - " + computerScore + " Computer"
-    );
-  }
-
-  if (humanScore > computerScore) {
-    console.log("Human wins!");
-  } else if (computerScore > humanScore) {
-    console.log("Computer wins!");
-  } else {
-    console.log("It's a draw!");
-  }
-}
-
-playGame();
